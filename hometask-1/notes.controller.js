@@ -25,6 +25,25 @@ async function getNotes() {
 	return Array.isArray(notesParse) ? notesParse : [];
 }
 
+async function editNote(id, newTitle) {
+	const notes = await getNotes();
+	const checkId = notes.findIndex((note) => note.id === id);
+
+	if (checkId !== -1 && newTitle) {
+		const updatedNotes = notes.map((note) => {
+			if (note.id === id) {
+				return { ...note, title: newTitle };
+			}
+			return { ...note };
+		});
+
+		await fs.writeFile(notesPath, JSON.stringify(updatedNotes));
+		console.log(chalk.cyan("Note has been updated!"));
+	} else {
+		console.log(chalk.bgRed.inverse("Incorrect data!"));
+	}
+}
+
 async function removeNote(id) {
 	const notes = await getNotes();
 	const filteredNotes = notes.filter((note) => note.id !== id);
@@ -54,5 +73,6 @@ async function printNotes() {
 module.exports = {
 	addNote,
 	removeNote,
-	printNotes,
+	getNotes,
+	editNote,
 };

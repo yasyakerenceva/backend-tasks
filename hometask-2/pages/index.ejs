@@ -36,26 +36,57 @@
 			<div class="card">
 				<ul class="list-group">
 					<% for (let note of notes) { %>
-					<li
-						class="list-group-item d-flex justify-content-between align-items-center"
-					>
-						<span><%= note.title %></span>
-						<div class="d-flex align-items-center">
-							<button
-								type="button"
-								class="btn btn-outline-primary me-3"
-								data-type="edit"
-								data-id="<%= note.id  %>"
-							>
-								Редактировать
-							</button>
-							<button
-								class="btn btn-danger"
-								data-type="remove"
-								data-id="<%= note.id  %>"
-							>
-								&times;
-							</button>
+					<li class="list-group-item">
+						<div
+							class="list-item-content d-flex justify-content-between align-items-center"
+						>
+							<span><%= note.title %></span>
+							<div class="d-flex align-items-center">
+								<button
+									type="button"
+									class="btn btn-outline-primary me-3"
+									data-type="update"
+									data-id="<%= note.id  %>"
+								>
+									Обновить
+								</button>
+								<button
+									type="button"
+									class="btn btn-danger"
+									data-type="remove"
+									data-id="<%= note.id  %>"
+								>
+									&times;
+								</button>
+							</div>
+						</div>
+						<div
+							class="list-item-content d-flex justify-content-between align-items-center d-none"
+						>
+							<input
+								type="text"
+								name="note"
+								value="<%= note.title %>"
+								data-value="<%= note.title %>"
+							/>
+							<div class="d-flex align-items-center">
+								<button
+									type="button"
+									class="btn btn-success me-3"
+									data-type="save"
+									data-id="<%= note.id  %>"
+								>
+									Сохранить
+								</button>
+								<button
+									type="button"
+									class="btn btn-danger"
+									data-type="cancel"
+									data-id="<%= note.id  %>"
+								>
+									Отменить
+								</button>
+							</div>
 						</div>
 					</li>
 					<% } %>

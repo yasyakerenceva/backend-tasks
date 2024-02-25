@@ -9,14 +9,36 @@ document.addEventListener("click", (e) => {
 		});
 	}
 
-	if (target.dataset.type === "edit") {
-		const id = target.dataset.id;
-		const newTitle = prompt("Введите новое название");
+	if (target.dataset.type === "update") {
+		const [contentChild, updateChild] = target.closest("li").children;
+		hideAndShowElements(contentChild, updateChild);
+	}
 
-		if (newTitle) {
-			update(id, newTitle).then(() => {
-				target.closest("li").children[0].textContent = newTitle;
+	if (target.dataset.type === "cancel") {
+		const [contentChild, updateChild] = target.closest("li").children;
+		const [inputChild] = updateChild.children;
+
+		hideAndShowElements(updateChild, contentChild);
+		inputChild.value = inputChild.dataset.value;
+	}
+
+	if (target.dataset.type === "save") {
+		const [contentChild, updateChild] = target.closest("li").children;
+		const [inputChild] = updateChild.children;
+
+		const { value, dataset } = inputChild;
+
+		if (value !== dataset.value && value) {
+			const id = target.dataset.id;
+			update(id, value).then(() => {
+				contentChild.children[0].textContent = value;
 			});
+		}
+
+		if (value) {
+			hideAndShowElements(updateChild, contentChild);
+		} else {
+			inputChild.focus();
 		}
 	}
 });
@@ -36,4 +58,9 @@ async function update(id, newTitle) {
 			title: newTitle,
 		}),
 	});
+}
+
+function hideAndShowElements(hiddenElement, openElement) {
+	hiddenElement.classList.add("d-none");
+	openElement.classList.remove("d-none");
 }
